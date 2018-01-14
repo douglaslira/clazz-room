@@ -1,11 +1,23 @@
-const ioInit = require('./app/controllers/main');
+const express = require("express");
+const path = require("path");
+const ioInit = require("./app/controllers/main");
 
-const app = require('http').createServer();
-const io = require('socket.io')(app);
+const app = express();
+const server = require("http").Server(app);
+const io = require("socket.io")(server);
 
-app.listen(3000, () => {
-  console.log('server is listening on http://localhost:3000');
-})
+const host = process.env.HOST || "http://localhost";
+const port = +process.env.PORT || 3000;
 
-io.set('origins', '*:*');
+server.listen(port, () => {
+  console.log(`server is listening on ${host}:${port}`);
+});
+
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("*", function(req, res) {
+  res.sendfile(path.join(__dirname, "public", "index.html"));
+});
+
+io.set("origins", "*:*");
 ioInit(io);
