@@ -1,4 +1,4 @@
-const ioInit = require('./app/events/main');
+const ioInit = require('./app/controllers/main');
 
 const app = require('http').createServer();
 const io = require('socket.io')(app);

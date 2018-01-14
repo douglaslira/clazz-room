@@ -1,3 +1,6 @@
+const teacherController = require("../controllers/teachers.controllers");
+const studentController = require("../controllers/students.controller");
+
 module.exports = function(io) {
   io.on("connection", function(socket) {
     console.log("a user connected");
@@ -5,9 +8,8 @@ module.exports = function(io) {
     socket.on("disconnect", function() {
       console.log("user disconnected");
     });
-
-    socket.on("question/publish", function(question) {
-      socket.broadcast.emit('question/added', question);
-    });
   });
+
+  teacherController(io);
+  studentController(io);
 };
