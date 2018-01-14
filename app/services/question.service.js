@@ -1,5 +1,9 @@
 const questions = [];
 
+const publishAllQuestions = function(socket) {
+  socket.emit('all-questions-sent', questions);
+}
+
 const publishStudentQuestion = function(io, question) {
   questions.push(question);
   io.emit("student-question-published", question);
@@ -17,12 +21,8 @@ const removeStudentQuestion = function(io, id) {
   io.emit("student-question-removed", id)
 };
 
-const publishMCQ = function(io, mcq) {
-  io.emit("mcq-queestion-published", question);
-};
-
 module.exports = {
+  publishAllQuestions: publishAllQuestions,
   publishStudentQuestion: publishStudentQuestion,
-  publishMCQ: publishMCQ,
   removeStudentQuestion: removeStudentQuestion
 };
